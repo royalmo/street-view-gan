@@ -1,3 +1,10 @@
+# Generated stuff
 models
 images
+
+# Python (venv)
+venv
+tf
+
+# .pyc
 **/__pycache__

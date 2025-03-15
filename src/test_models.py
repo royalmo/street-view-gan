@@ -24,12 +24,16 @@ def generate_and_save_images(model, model_name, test_input):
     # This is so all layers run in inference mode (batchnorm).
     predictions = model(test_input, training=False)
 
-    plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(4, 4))
 
     for i in range(predictions.shape[0]):
+        img = (predictions[i, :, :] + 1) / 2
         plt.subplot(4, 4, i+1)
-        plt.imshow((predictions[i, :, :] + 1) / 2)  # Rescale back to [0, 1] for display
+        plt.imshow(img)  # Rescale back to [0, 1] for display
         plt.axis('off')
+
+        # Saving single image too
+        plt.imsave(os.path.join(SAVE_DIR, f"{model_name}_{i+1:02d}.png"), img)
 
     plt.savefig(os.path.join(SAVE_DIR, f"{model_name}.png"))
     plt.show()
@@ -42,7 +46,7 @@ if __name__=="__main__":
     model_path = os.path.join(SAVE_DIR, f"{argv[1]}.h5")
     print(f"Loading model: {model_path}.")
     generator = load_model(model_path)
-    num_examples_to_generate = 8*8
+    num_examples_to_generate = 4*4
 
     # So we see some nice progress
     tf.random.set_seed(42)
