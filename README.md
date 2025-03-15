@@ -40,7 +40,7 @@ Make sure you have the GPU drivers for Tensorflow
 python3 -m venv tf
 source tf/bin/activate
 python3 -m pip install --upgrade pip
-python3 -m pip install tensorflow[and-cuda] # TODO Change to requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 Then, everytime, before running the code, activate the virtual environment.
