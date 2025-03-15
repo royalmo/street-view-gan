@@ -7,44 +7,43 @@ cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 def build_generator(latent_dim, input_size):
     model = tf.keras.Sequential()
 
-    # Start with a small 8x8 feature map
+    # Start with a small 10*10 feature map
     model.add(layers.Dense(int(input_size[0]/64 * input_size[1]/64 * 512), use_bias=False, input_shape=(latent_dim,)))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    model.add(layers.Reshape((int(input_size[0]/64), int(input_size[1]/64), 512)))  # Reshape to 8x8x512
+    model.add(layers.Reshape((int(input_size[0]/64), int(input_size[1]/64), 512)))  # Reshape to 10x10x512
 
-    # Upsample: 8x8 → 16x16
+    # Upsample: 10->20
     model.add(layers.Conv2DTranspose(256, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    # 16x16 → 32x32
+    # 20->40
     model.add(layers.Conv2DTranspose(128, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
-
-    # 32x32 → 64x64
+    # 40->80
     model.add(layers.Conv2DTranspose(64, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    # 64x64 → 128x128
+    # 80->160
     model.add(layers.Conv2DTranspose(64, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    # 128x128 → 256x256
+    # 160->320
     model.add(layers.Conv2DTranspose(32, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    # 256x256 → 512x512
+    # 320->640
     model.add(layers.Conv2DTranspose(16, kernel_size=5, strides=2, padding="same", use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    # 512x512 → 640x640 (final output)
+    # Final resize to RGB
     model.add(layers.Conv2DTranspose(3, kernel_size=5, strides=1, padding="same", activation="tanh"))
 
     return model

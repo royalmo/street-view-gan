@@ -13,7 +13,8 @@ if __name__=="__main__":
     print(f"Dataset length: {DATASET_LENGTH}")
 
     # Ensuring same coords
-    print(f"Image sizes: {lib.dataset.get_ensure_image_size(f"{DATASET_PATH}/dataset", DATASET_LENGTH)}")
+    image_size = lib.dataset.get_ensure_image_size(f"{DATASET_PATH}/dataset", DATASET_LENGTH)
+    print(f"Image sizes: {image_size}")
 
     BATCH_SIZE = 64
     BUFFER_SIZE = 1000
