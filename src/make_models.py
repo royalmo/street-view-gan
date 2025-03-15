@@ -16,7 +16,7 @@ if __name__=="__main__":
     image_size = lib.dataset.get_ensure_image_size(f"{DATASET_PATH}/dataset", DATASET_LENGTH)
     print(f"Image sizes: {image_size}")
 
-    BATCH_SIZE = 64
+    BATCH_SIZE = 32 # 64 returns OOM
     BUFFER_SIZE = 1000
 
     print("Pre-processing data...")
