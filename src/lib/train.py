@@ -47,8 +47,8 @@ def train(dataset, epochs, save_prefix, generator, discriminator, batch_size, no
         for image_batch in dataset:
             train_step(image_batch)
 
-        if (epoch+1)%10==0 or (epoch+1)%25==0:
+        if (epoch+1+start_at)%10==0 or (epoch+1+start_at)%25==0:
             save_models(save_prefix, epoch+1+start_at, generator, discriminator)
 
-        print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+        print ('Time for epoch {} is {} sec'.format(epoch + 1 + start_at, time.time()-start))
 
