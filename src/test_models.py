@@ -1,17 +1,25 @@
 from sys import argv, exit
+
+import os
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 from make_models import NOISE_DIM
 
+this_path = Path(__file__).resolve()
+SAVE_DIR = this_path.parent.parent / "images"
+os.makedirs(SAVE_DIR, exist_ok=True)
+
 def print_usage_and_exit(exit_code):
     print("Usage:")
-    print("  python3 test_models.py path_to_generator_model.h5")
+    print("  python3 test_models.py world_generator_epoch_50")
     print()
     exit(exit_code)
 
-def generate_and_save_images(model, fig_name, test_input):
+def generate_and_save_images(model, model_name, test_input):
     # Notice `training` is set to False.
     # This is so all layers run in inference mode (batchnorm).
     predictions = model(test_input, training=False)
@@ -23,7 +31,7 @@ def generate_and_save_images(model, fig_name, test_input):
         plt.imshow((predictions[i, :, :] + 1) / 2)  # Rescale back to [0, 1] for display
         plt.axis('off')
 
-    plt.savefig(fig_name)
+    plt.savefig(os.path.join(SAVE_DIR, f"{model_name}.png"))
     plt.show()
 
 if __name__=="__main__":
@@ -31,12 +39,16 @@ if __name__=="__main__":
         print("Error: no model specified.")
         print_usage_and_exit(1)
 
-    model_path = argv[1]
+    model_path = os.path.join(SAVE_DIR, f"{argv[1]}.h5")
+    print(f"Loading model: {model_path}.")
     generator = load_model(model_path)
     num_examples_to_generate = 8*8
 
+    # So we see some nice progress
+    tf.random.set_seed(42)
+
     generate_and_save_images(
         generator,
-        model_path.replace('.h5', '.png'),
+        argv[1].replace('_generator', ''),
         tf.random.normal([num_examples_to_generate, NOISE_DIM]))
-    print("Done!")
+    print(f"Done! Check {SAVE_DIR}")

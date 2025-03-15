@@ -14,7 +14,7 @@ def save_models(prefix, epoch, generator, discriminator):
     discriminator.save(os.path.join(SAVE_DIR, f"{prefix}_discriminator_epoch_{epoch}.h5"))
     print(f"Models saved at epoch {epoch}")
 
-def train(dataset, epochs, save_prefix, generator, discriminator, batch_size, noise_dim):
+def train(dataset, epochs, save_prefix, generator, discriminator, batch_size, noise_dim, start_at=0):
 
     generator_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5)
     discriminator_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5)
@@ -44,11 +44,11 @@ def train(dataset, epochs, save_prefix, generator, discriminator, batch_size, no
     for epoch in range(epochs):
         start = time.time()
 
-        # Initial model
-        save_models(save_prefix, 0, generator, discriminator)
         for image_batch in dataset:
             train_step(image_batch)
 
-        save_models(save_prefix, epoch+1, generator, discriminator)
+        if (epoch+1)%10==0 or (epoch+1)%25==0:
+            save_models(save_prefix, epoch+1+start_at, generator, discriminator)
+
         print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
 

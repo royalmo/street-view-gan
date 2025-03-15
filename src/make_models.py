@@ -1,7 +1,9 @@
 from sys import argv
+import os
 
 import kagglehub
 import tensorflow as tf
+from tensorflow.keras.models import load_model
 
 import lib
 
@@ -65,13 +67,21 @@ if __name__=="__main__":
     print("Pre-processing done!")
 
     generator = lib.model.build_generator(NOISE_DIM, lib.dataset.IMAGE_SIZE)
-    generator.summary()
+    #generator.summary()
 
     discriminator = lib.model.build_discriminator(lib.dataset.IMAGE_SIZE)
-    discriminator.summary()
+    #discriminator.summary()
 
-    print("Starting training")
-    lib.train.train(dataset, epochs=50, save_prefix="test_one",
-                    generator=generator, discriminator=discriminator,
-                    batch_size=BATCH_SIZE, noise_dim=latent_dim)
+    start_at = int(get_argv('start-at', 0))
+    if start_at != 0:
+        print(f"Starting from pre-trained epoch {start_at}. Loading models.")
+        generator = load_model(os.path.join(lib.train.SAVE_DIR, f"{selected_region}_generator_epoch_{start_at}.h5"))
+        discriminator = load_model(os.path.join(lib.train.SAVE_DIR, f"{selected_region}_discriminator_epoch_{start_at}.h5"))
+
+    epochs = int(get_argv('epochs', '50'))
+
+    print(f"Starting training {epochs} epochs.")
+    lib.train.train(dataset, epochs, selected_region,
+                    generator, discriminator,
+                    BATCH_SIZE, NOISE_DIM, start_at)
     print("Training done!")
