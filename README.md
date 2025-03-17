@@ -2,7 +2,7 @@
 
 *A Google Street View Generative Adversarial Network (GAN).*
 
-TODO add a figure
+![gifmaker_me(1)](https://github.com/user-attachments/assets/2fd3596a-069f-4422-b4b7-2de83257c72f)
 
 ---
 
@@ -55,14 +55,22 @@ If you don't want to use the models I pre-trained for you, perform the following
 steps to be able to retreive the data, prepare it, train the GAN, and store the
 model.
 
-TODO
+```sh
+python3 src/make_models.py
+python3 src/make_models.py --region france --epochs 25
+# Assuming models/world_{generator,discriminator}_epoch_5.h5 exists
+python3 src/make_models.py --region world --epochs 10 --start-at 5
+```
+
+The models are stored in /models (only every 10 and 25).
 
 ## Play with a model
 
 Once the model is trained (or downloaded) you can play with it on a
 CLI-script, so it's easier to run it on a remote server.
 
-TODO
+```sh
+python3 src/test_models.py world_generator_epoch_50
+```
 
-
-TODO instructions
+This will generate 16 images with seed 42 and store them in /images.
