@@ -8,3 +8,6 @@ tf
 
 # .pyc
 **/__pycache__
+
+# Report
+*.pdf
