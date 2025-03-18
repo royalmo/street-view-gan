@@ -13,6 +13,10 @@ This repository contains the source code of the final project of the
 
 Made by [Eric Roy](https://ericroy.net). Licensed under GPL3.
 
+> **Disclaimer:** One requirement of the project was to finish it in 8 hours
+> of work. This means that this project has a lot of open and easy follow-ups.
+> In other words, it is incomplete.
+
 ## Overview
 
 This repository contains all the code needed to train and play with
@@ -23,13 +27,13 @@ I also include some already trained models to just rush into the test part.
 The models are trained using Pau Chambaz's
 [Google Street View Dataset](https://www.kaggle.com/datasets/paulchambaz/google-street-view).
 
-You will also find the report (pdf TODO LINK) that I submitted for the
+You will also find the report ([pdf](https://github.com/royalmo/street-view-gan/releases/latest)) that I submitted for the
 MSc course, where I wrote all the juicy details.
 
 ## Install steps
 
 First, get yourself with a copy of the repository. You can download the
-latest release (TODO LINK) in order to get the trained models and
+latest release ([link](https://github.com/royalmo/street-view-gan/releases/latest)) in order to get the trained models and
 builded PDF report.
 
 Once inside, **the first time only**, setup venv and install the required packages.
